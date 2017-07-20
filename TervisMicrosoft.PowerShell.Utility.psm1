@@ -14,3 +14,22 @@
         $Object
     }
 }
+
+function Compare-ObjectAllProperties {
+    param (
+        [Parameter(Mandatory)]$ReferenceObject,
+        [Parameter(Mandatory)]$DifferenceObject,
+        [Switch]$IncludeEqual
+    )
+    
+    $ReferenceObjectPropertyNames = $ReferenceObject |
+    Get-PropertyNames
+
+    $ReferenceObjectPropertyNames = $DifferenceObject |
+    Get-PropertyNames
+
+    $Properties = ($ReferenceObjectPropertyNames + $DifferenceObject) |
+    Sort-Object -Unique
+
+    Compare-Object -ReferenceObject $ReferenceObject -DifferenceObject $DifferenceObject -Property $Properties -IncludeEqual:$IncludeEqual
+}
