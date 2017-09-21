@@ -1,8 +1,14 @@
 ﻿function ConvertFrom-StringUsingRegexCaptureGroup {
-    param (
-        [Regex]$Regex,
-        [Parameter(ValueFromPipeline)]$Content
+    param (        
+        [Parameter(Mandatory,ParameterSetName="Regex")][Regex]$Regex,
+        [Parameter(Mandatory,ParameterSetName="TemplateFile")][Regex]$TemplateFile,
+        [Parameter(Mandatory,ValueFromPipeline)]$Content
     )
+    being {
+        if($TemplateFile) {
+            [Regex]$Regex = Get-Content -Path $TemplateFile | Out-String
+        }
+    }
     process {
         $Match = $Regex.Match($Content)
         $Object = [pscustomobject]@{} 
@@ -12,17 +18,6 @@
             Add-Member -MemberType NoteProperty -Name $GroupName -Value $Match.Groups[$GroupName].Value 
         }
         $Object
-    }
-}
-
-function ConvertFrom-StringUsingRegexCaptureGroupTemplate {
-    param (
-        [Parameter(Mandatory)]$Path,
-        [Parameter(ValueFromPipeline)]$Content
-    )
-    process {
-        [Regex]$Regex = Get-Content -Path $Path | Out-String
-        ConvertFrom-StringUsingRegexCaptureGroup -Regex $Regex -Content $Content
     }
 }
 
