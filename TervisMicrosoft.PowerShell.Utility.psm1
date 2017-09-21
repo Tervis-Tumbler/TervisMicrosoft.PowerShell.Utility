@@ -15,6 +15,17 @@
     }
 }
 
+function ConvertFrom-StringUsingRegexCaptureGroupTemplate {
+    param (
+        [Parameter(Mandatory)]$Path,
+        [Parameter(ValueFromPipeline)]$Content
+    )
+    process {
+        [Regex]$Regex = Get-Content -Path $Path | Out-String
+        ConvertFrom-StringUsingRegexCaptureGroup -Regex $Regex -Content $Content
+    }
+}
+
 function Compare-ObjectAllProperties {
     param (
         [Parameter(Mandatory)]$ReferenceObject,
@@ -42,4 +53,13 @@ function ConvertTo-HashTable {
     $HashTable = @{}
     $Object.psobject.properties | Foreach { $HashTable[$_.Name] = $_.Value }
     $HashTable
+}
+
+function ConvertTo-Variable {
+    param (
+        [Parameter(ValueFromPipeline)][HashTable]$HashTableToConvert
+    )
+    foreach ($Key in $HashTableToConvert.Keys) {
+        New-Variable -Name $Key -Value $HashTableToConvert[$Key] -Force -Scope 1
+    }
 }
