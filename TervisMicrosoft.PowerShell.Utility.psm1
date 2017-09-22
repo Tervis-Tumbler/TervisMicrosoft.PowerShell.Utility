@@ -4,7 +4,7 @@
         [Parameter(Mandatory,ParameterSetName="TemplateFile")][Regex]$TemplateFile,
         [Parameter(Mandatory,ValueFromPipeline)]$Content
     )
-    being {
+    begin {
         if($TemplateFile) {
             [Regex]$Regex = Get-Content -Path $TemplateFile | Out-String
         }
