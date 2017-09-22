@@ -1,7 +1,7 @@
 ﻿function ConvertFrom-StringUsingRegexCaptureGroup {
     param (        
         [Parameter(Mandatory,ParameterSetName="Regex")][Regex]$Regex,
-        [Parameter(Mandatory,ParameterSetName="TemplateFile")][Regex]$TemplateFile,
+        [Parameter(Mandatory,ParameterSetName="TemplateFile")]$TemplateFile,
         [Parameter(Mandatory,ValueFromPipeline)]$Content
     )
     begin {
