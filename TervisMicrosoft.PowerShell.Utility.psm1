@@ -58,3 +58,23 @@ function ConvertTo-Variable {
         New-Variable -Name $Key -Value $HashTableToConvert[$Key] -Force -Scope 1
     }
 }
+
+function Get-Hash {
+    param (
+        [Parameter(Mandatory,ValueFromPipeline)]$String,
+        [ValidateSet("MD5","SHA1","SHA256","SHA384","SHA512")]
+        [Parameter(Mandatory)]
+        $HashFunction
+    )
+    begin {
+        $HashCryptoServiceProvider = new-object -TypeName System.Security.Cryptography.$($HashFunction)CryptoServiceProvider
+        $UTF8 = new-object -TypeName System.Text.UTF8Encoding
+    }
+    process {  
+        [System.BitConverter]::ToString(
+            $HashCryptoServiceProvider.ComputeHash(
+                $UTF8.GetBytes($String)
+            )
+        ).replace("-","")
+    }
+}
