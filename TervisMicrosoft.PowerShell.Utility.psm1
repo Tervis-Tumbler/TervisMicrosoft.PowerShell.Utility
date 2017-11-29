@@ -96,8 +96,7 @@ $(
             "    $Property = $(if ($Value -is [String]) {'"' + $Value + '"'} else {$Value})`r`n"
         }
     }
-)
-}
+)}
 "@
     $OFS = $OFSBeforeFunctionCall
     }
