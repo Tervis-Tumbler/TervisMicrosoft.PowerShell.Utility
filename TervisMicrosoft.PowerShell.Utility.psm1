@@ -84,7 +84,7 @@ function ConvertTo-PSCustomObjectStanza {
         [Parameter(Mandatory,ValueFromPipeline)]$Object
     )
     process {
-        $PropertyName = $Object | Get-PropertyNames
+        $PropertyNames = $Object | Get-PropertyName
 @"
 [PSCustomObject][Ordered]@{
 $(foreach ($Property in $PropertyNames) {"    $Property = $($Object.$Property)`r`n"} )
