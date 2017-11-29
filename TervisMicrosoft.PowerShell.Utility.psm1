@@ -87,7 +87,16 @@ function ConvertTo-PSCustomObjectStanza {
         $PropertyNames = $Object | Get-PropertyName
 @"
 [PSCustomObject][Ordered]@{
-$(foreach ($Property in $PropertyNames) {"    $Property = $($Object.$Property)`r`n"} )
+$(
+    $String=""
+    foreach ($Property in $PropertyNames) {
+        $Value = $($Object.$Property)
+        if ($Value) {
+            $String += "    $Property = $(if ($Value -is [String]) {'"' + $Value + '"'} else {$Value})`r`n"
+        }
+    }
+    $String 
+)
 }
 "@
     }
