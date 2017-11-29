@@ -83,11 +83,15 @@ function ConvertTo-PSCustomObjectStanza {
     param (
         [Parameter(Mandatory,ValueFromPipeline)]$Object
     )
+    begin {
+        $Array = @()
+    }
     process {
         $OFSBeforeFunctionCall = $OFS
         $OFS = ""
         $PropertyNames = $Object | Get-PropertyName
-@"
+        
+        $Array += @"
 [PSCustomObject][Ordered]@{
 $(
     foreach ($Property in $PropertyNames) {
@@ -99,5 +103,8 @@ $(
 )}
 "@
     $OFS = $OFSBeforeFunctionCall
+    }
+    end {
+        $Array -join ",`r`n"
     }
 }
