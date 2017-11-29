@@ -29,10 +29,10 @@ function Compare-ObjectAllProperties {
     )
     
     $ReferenceObjectPropertyNames = $ReferenceObject |
-    Get-PropertyNames
+    Get-PropertyName
 
     $ReferenceObjectPropertyNames = $DifferenceObject |
-    Get-PropertyNames
+    Get-PropertyName
 
     $Properties = ($ReferenceObjectPropertyNames + $DifferenceObject) |
     Sort-Object -Unique
@@ -76,5 +76,19 @@ function Get-Hash {
                 $UTF8.GetBytes($String)
             )
         ).replace("-","")
+    }
+}
+
+function ConvertTo-PSCustomObjectStanza {
+    param (
+        [Parameter(Mandatory,ValueFromPipeline)]$Object
+    )
+    process {
+        $PropertyName = $Object | Get-PropertyNames
+@"
+[PSCustomObject][Ordered]@{
+$(foreach ($Property in $PropertyNames) {"    $Property = $($Object.$Property)`r`n"} )
+}
+"@
     }
 }
