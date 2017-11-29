@@ -84,20 +84,21 @@ function ConvertTo-PSCustomObjectStanza {
         [Parameter(Mandatory,ValueFromPipeline)]$Object
     )
     process {
+        $OFSBeforeFunctionCall = $OFS
+        $OFS = ""
         $PropertyNames = $Object | Get-PropertyName
 @"
 [PSCustomObject][Ordered]@{
 $(
-    $String=""
     foreach ($Property in $PropertyNames) {
         $Value = $($Object.$Property)
         if ($Value) {
-            $String += "    $Property = $(if ($Value -is [String]) {'"' + $Value + '"'} else {$Value})`r`n"
+            "    $Property = $(if ($Value -is [String]) {'"' + $Value + '"'} else {$Value})`r`n"
         }
     }
-    $String 
 )
 }
 "@
+    $OFS = $OFSBeforeFunctionCall
     }
 }
