@@ -47,7 +47,11 @@ function ConvertTo-HashTable {
         [Switch]$Ordered
     )
     $HashTable = if ($Ordered) { [ordered]@{} } else { @{} }
-    $Object.psobject.properties | Foreach { $HashTable[$_.Name] = $_.Value }
+    
+    $Object.psobject.properties | 
+    Where-Object {$_} |
+    ForEach-Object { $HashTable[$_.Name] = $_.Value }
+
     $HashTable
 }
 
