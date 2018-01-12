@@ -43,9 +43,10 @@ function Compare-ObjectAllProperties {
 function ConvertTo-HashTable {
     #Inspired by http://stackoverflow.com/questions/3740128/pscustomobject-to-hashtable
     param(
-        [Parameter(ValueFromPipeline)]$Object
+        [Parameter(ValueFromPipeline)]$Object,
+        [Switch]$Ordered
     )
-    $HashTable = @{}
+    $HashTable = if ($Ordered) { [ordered]@{} } else { @{} }
     $Object.psobject.properties | Foreach { $HashTable[$_.Name] = $_.Value }
     $HashTable
 }
