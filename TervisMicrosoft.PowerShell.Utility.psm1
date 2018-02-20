@@ -59,8 +59,10 @@ function ConvertTo-Variable {
     param (
         [Parameter(ValueFromPipeline)][HashTable]$HashTableToConvert
     )
-    foreach ($Key in $HashTableToConvert.Keys) {
-        New-Variable -Name $Key -Value $HashTableToConvert[$Key] -Force -Scope 1
+    process {
+        foreach ($Key in $HashTableToConvert.Keys) {
+            New-Variable -Name $Key -Value $HashTableToConvert[$Key] -Force -Scope 1
+        }
     }
 }
 
