@@ -115,3 +115,18 @@ $(
         $Array -join ",`r`n"
     }
 }
+
+#https://github.com/lazywinadmin/PowerShell/blob/master/TOOL-Remove-PSObjectEmptyOrNullProperty/Remove-PSObjectEmptyOrNullProperty.ps1
+function Remove-PSObjectEmptyOrNullProperty {
+    param (
+        [Parameter(Mandatory,ValueFromPipeline)]$PSObject
+    )
+    process {
+        $PSObject.psobject.Properties |
+		Where-Object { -not $_.value -and $_.value -ne $false} |
+		ForEach-Object {
+			$PsObject.psobject.Properties.Remove($_.name)
+        }
+        $PSObject
+    }
+}
