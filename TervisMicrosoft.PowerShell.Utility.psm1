@@ -55,6 +55,17 @@ function ConvertTo-HashTable {
     $HashTable
 }
 
+function Split-HashTable {
+    param (
+        [Parameter(ValueFromPipeline)]$HashTable
+    )
+    process {
+        ForEach ($Key in $HashTable.Keys) {
+            @{ $Key = $HashTable[$Key] }
+        }
+    }
+}
+
 function ConvertTo-Variable {
     param (
         [Parameter(ValueFromPipeline)][HashTable]$HashTableToConvert

@@ -14,4 +14,14 @@ Describe "Module" {
         $Object.NullThing | Should -BeNullOrEmpty
         $Object.FalseThing | should -Be $false
     }
+    It "Split-HashTable" {
+        $HashTable = [Ordered]@{
+            Thing = "Value"
+            Thing2 = "Value2"
+        }
+        $ArrayOfHashTables = $HashTable | Split-HashTable
+        $ArrayOfHashTables.count | Should -Be 2
+        $ArrayOfHashTables[0].Keys | Should -Be "Thing"
+        $ArrayOfHashTables[1].Keys | Should -Be "Thing2"
+    }
 }
