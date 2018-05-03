@@ -46,13 +46,15 @@ function ConvertTo-HashTable {
         [Parameter(ValueFromPipeline)]$Object,
         [Switch]$Ordered
     )
-    $HashTable = if ($Ordered) { [ordered]@{} } else { @{} }
-    
-    $Object.psobject.properties | 
-    Where-Object {$_} |
-    ForEach-Object { $HashTable[$_.Name] = $_.Value }
+    process {
+        $HashTable = if ($Ordered) { [ordered]@{} } else { @{} }
+        
+        $Object.psobject.properties | 
+        Where-Object {$_} |
+        ForEach-Object { $HashTable[$_.Name] = $_.Value }
 
-    $HashTable
+        $HashTable
+    }
 }
 
 function Split-HashTable {
