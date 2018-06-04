@@ -129,7 +129,6 @@ $(
     }
 }
 
-
 function Remove-HashtableKeysWithEmptyOrNullValues {
     param (
         [Parameter(ValueFromPipeline,Mandatory)]
