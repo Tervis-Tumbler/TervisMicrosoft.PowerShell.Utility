@@ -147,9 +147,11 @@ function Remove-HashtableKeysWithEmptyOrNullValues {
 
 filter Split-String {
     param (
-        $SplitParameter
-    )
-    $_ -split $SplitParameter
+        [Parameter(ValueFromPipeline,Mandatory)]$SplitParameter
+	)
+	process {
+		$_ -split $SplitParameter
+	}
 }
 
 function ConvertFrom-PSBoundParameters {
