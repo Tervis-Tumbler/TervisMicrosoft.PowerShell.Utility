@@ -626,7 +626,7 @@ Function New-DynamicParameter {
 		[string]$Name,
 
 		[Parameter(ValueFromPipelineByPropertyName = $true, ParameterSetName = 'DynamicParameter')]
-		[System.Type]$Type = [int],
+		[System.Type]$Type = [String],
 
 		[Parameter(ValueFromPipelineByPropertyName = $true, ParameterSetName = 'DynamicParameter')]
 		[string[]]$Alias,
