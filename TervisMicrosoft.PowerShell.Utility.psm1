@@ -915,7 +915,7 @@ Function New-DynamicParameter {
 #$MetaData = New-Object System.Management.Automation.CommandMetaData (Get-Command Add-Member) 
 #[System.Management.Automation.ProxyCommand]::Create($MetaData)
 
-function Add-TervisMemeber {
+function Add-Member {
 	[CmdletBinding(DefaultParameterSetName='TypeNameSet', HelpUri='https://go.microsoft.com/fwlink/?LinkID=113280', RemotingCapability='None')]
 	param(
 		[Parameter(ParameterSetName='MemberSet', Mandatory=$true, ValueFromPipeline=$true)]
@@ -996,7 +996,8 @@ function Add-TervisMemeber {
 			}
 			$wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Add-Member', [System.Management.Automation.CommandTypes]::Cmdlet)
 
-			if ($CacheValue) {
+			if ($PSBoundParameters.CacheValue) {
+				$PSBoundParameters.Remove("CacheValue") | Out-Null
 				$PSBoundParameters.Value = [ScriptBlock]::Create(@"
 					`$This | Add-Member -MemberType NoteProperty -Name $Name -Force -Value `$(
 						$($Value.ToString())
