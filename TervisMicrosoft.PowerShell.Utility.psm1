@@ -915,7 +915,7 @@ Function New-DynamicParameter {
 #$MetaData = New-Object System.Management.Automation.CommandMetaData (Get-Command Add-Member) 
 #[System.Management.Automation.ProxyCommand]::Create($MetaData)
 
-function Add-Member {
+function Add-TervisMember {
 	[CmdletBinding(DefaultParameterSetName='TypeNameSet', HelpUri='https://go.microsoft.com/fwlink/?LinkID=113280', RemotingCapability='None')]
 	param(
 		[Parameter(ParameterSetName='MemberSet', Mandatory=$true, ValueFromPipeline=$true)]
