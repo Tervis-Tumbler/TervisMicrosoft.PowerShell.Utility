@@ -152,6 +152,13 @@ filter Split-String {
 	$_ -split $SplitParameter
 }
 
+filter ConvertTo-Generic {
+    param (
+		$As
+	)
+	$_ -as $As
+}
+
 function ConvertFrom-PSBoundParameters {
     param (
         [Parameter(ValueFromPipeline)]$ValueFromPipeline,
