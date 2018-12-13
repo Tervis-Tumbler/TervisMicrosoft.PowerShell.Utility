@@ -99,6 +99,27 @@ function Get-Hash {
     }
 }
 
+function New-HashTableIndex {
+	param (
+        [Parameter(Mandatory,ValueFromPipeline)]$InputObject,
+		[Parameter(Mandatory)]$PropertyToIndex
+    )
+    begin {
+        $HashTable = @{}
+    }
+    process {
+        try {
+			$HashTable.Add($InputObject.$PropertyToIndex, $InputObject)      
+        }
+        catch {
+            Write-Warning "$($InputObject.$PropertyToIndex) could not be added to the index."
+        }
+    }
+    end {
+        $HashTable
+    }
+}
+
 function ConvertTo-PSCustomObjectStanza {
     param (
         [Parameter(Mandatory,ValueFromPipeline)]$Object
