@@ -109,7 +109,10 @@ function New-HashTableIndex {
     }
     process {
         try {
-			$HashTable.Add($InputObject.$PropertyToIndex, $InputObject)      
+			$InputObject.$PropertyToIndex |
+			ForEach-Object -Process {
+				$HashTable.Add($_, $InputObject)
+			}
         }
         catch {
             Write-Warning "$($InputObject.$PropertyToIndex) could not be added to the index."
