@@ -221,7 +221,7 @@ function New-TemporaryDirectory {
 	)
 	$GUID = New-Guid | Select-Object -ExpandProperty GUID
     $TemporaryFolderRoot = if ($TemporaryFolderType -eq "System") {
-		"C:\windows\temp\"
+		"C:\windows\temp"
 	}
 
 	"$TemporaryFolderRoot\$Guid"
