@@ -215,6 +215,18 @@ function ConvertFrom-PSBoundParameters {
     }
 }
 
+function New-TemporaryDirectory {
+	param (
+		[ValidateSet("System")]$TemporaryFolderType
+	)
+	$GUID = New-Guid | Select-Object -ExpandProperty GUID
+    $TemporaryFolderRoot = if ($TemporaryFolderType -eq "System") {
+		"C:\windows\temp\"
+	}
+
+	"$TemporaryFolderRoot\$Guid"
+}
+
 
 #https://github.com/lazywinadmin/PowerShell/blob/master/TOOL-Remove-PSObjectEmptyOrNullProperty/Remove-PSObjectEmptyOrNullProperty.ps1
 function Remove-PSObjectEmptyOrNullProperty {
