@@ -227,6 +227,26 @@ function New-TemporaryDirectory {
 	"$TemporaryFolderRoot\$Guid"
 }
 
+function Invoke-FileDownload {
+    param (
+        [Parameter(Mandatory)]$URI,
+        [Parameter(Mandatory)]$OutFile,
+        [Switch]$Force
+    )
+    process {
+        if ((Test-Path $OutFile) -and -not $Force) {
+            $Response = Invoke-WebRequest -UseBasicParsing -Uri $URI -Method Head
+            $ContentLength = $Response.Headers."Content-Length"
+            $Length = Get-Item -Path $OutFile | Select-Object -ExpandProperty Length
+
+            if ($Length -ne $ContentLength) {
+                Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
+            }
+        } else {
+            Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
+        }
+    }
+}
 
 #https://github.com/lazywinadmin/PowerShell/blob/master/TOOL-Remove-PSObjectEmptyOrNullProperty/Remove-PSObjectEmptyOrNullProperty.ps1
 function Remove-PSObjectEmptyOrNullProperty {
