@@ -248,6 +248,17 @@ function Invoke-FileDownload {
     }
 }
 
+function Get-GuidFromString {
+    param (
+        [Parameter(Mandatory,ValueFromPipeline)]$InputString
+    )
+    process {
+        $InputString | 
+        ConvertFrom-StringUsingRegexCaptureGroup -Regex "(?<GUID>{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?)" |
+        Select-Object -ExpandProperty GUID    
+    }
+}
+
 #https://github.com/lazywinadmin/PowerShell/blob/master/TOOL-Remove-PSObjectEmptyOrNullProperty/Remove-PSObjectEmptyOrNullProperty.ps1
 function Remove-PSObjectEmptyOrNullProperty {
     param (
