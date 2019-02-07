@@ -251,11 +251,11 @@ function Invoke-FileDownload {
 function Get-GuidFromString {
     param (
 		[Parameter(Mandatory,ValueFromPipeline)]$InputString,
-		[Switch]$IncludeBraces = $true
+		[Switch]$IncludeBraces = $True
     )
     process {
         $GUID = $InputString | 
-        ConvertFrom-StringUsingRegexCaptureGroup -Regex "(?<GUID>?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}?)" |
+        ConvertFrom-StringUsingRegexCaptureGroup -Regex "(?<GUID>\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}?)" |
 		Select-Object -ExpandProperty GUID
 
 		if (-not $IncludeBraces) {
