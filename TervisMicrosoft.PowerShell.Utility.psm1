@@ -250,12 +250,19 @@ function Invoke-FileDownload {
 
 function Get-GuidFromString {
     param (
-        [Parameter(Mandatory,ValueFromPipeline)]$InputString
+		[Parameter(Mandatory,ValueFromPipeline)]$InputString,
+		[Switch]$IncludeBraces = $true
     )
     process {
-        $InputString | 
-        ConvertFrom-StringUsingRegexCaptureGroup -Regex "(?<GUID>{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?)" |
-        Select-Object -ExpandProperty GUID    
+        $GUID = $InputString | 
+        ConvertFrom-StringUsingRegexCaptureGroup -Regex "(?<GUID>?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}?)" |
+		Select-Object -ExpandProperty GUID
+
+		if (-not $IncludeBraces) {
+			$GUID
+		} else {
+			"{$GUID}"
+		}
     }
 }
 
