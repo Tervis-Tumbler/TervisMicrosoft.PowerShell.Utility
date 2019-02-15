@@ -251,7 +251,7 @@ function Invoke-FileDownload {
 function Get-GuidFromString {
     param (
 		[Parameter(Mandatory,ValueFromPipeline)]$InputString,
-		[Switch]$IncludeBraces = $True
+		[Switch]$IncludeBraces
     )
     process {
         $GUID = $InputString | 
