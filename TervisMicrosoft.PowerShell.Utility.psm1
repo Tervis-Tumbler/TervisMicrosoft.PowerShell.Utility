@@ -248,8 +248,9 @@ function Invoke-FileDownload {
 		if (-not $AsThreadJob) {
 			Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
 		} else {
-			Start-ThreadJob -ScriptBlock {
-				Invoke-WebRequest -UseBasicParsing -Uri $Using:URI -OutFile $Using:OutFile
+			Start-ThreadJob -ArgumentList @($URI,$OutFile) -ScriptBlock {
+				param ($URI, $OutFile)
+				Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
 			}
 		}
     }
