@@ -230,21 +230,28 @@ function New-TemporaryDirectory {
 function Invoke-FileDownload {
     param (
         [Parameter(Mandatory)]$URI,
-        [Parameter(Mandatory)]$OutFile,
-        [Switch]$Force
+		[Parameter(Mandatory)]$OutFile,
+		[Switch]$AsThreadJob,
+		[Switch]$Force
     )
     process {
-        if ((Test-Path $OutFile) -and -not $Force) {
+        if (-not $Force -and (Test-Path $OutFile)) {
             $Response = Invoke-WebRequest -UseBasicParsing -Uri $URI -Method Head
             $ContentLength = $Response.Headers."Content-Length"
             $Length = Get-Item -Path $OutFile | Select-Object -ExpandProperty Length
 
-            if ($Length -ne $ContentLength) {
-                Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
+            if ($Length -eq $ContentLength) {
+				return
             }
-        } else {
-            Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
-        }
+        } 
+
+		if (-not $AsThreadJob) {
+			Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
+		} else {
+			Start-ThreadJob -ScriptBlock {
+				Invoke-WebRequest -UseBasicParsing -Uri $Using:URI -OutFile $Using:OutFile
+			}
+		}
     }
 }
 
