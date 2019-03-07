@@ -250,6 +250,7 @@ function Invoke-FileDownload {
 		} else {
 			Start-ThreadJob -ArgumentList @($URI,$OutFile) -ScriptBlock {
 				param ($URI, $OutFile)
+				$ProgressPreference = "SilentlyContinue"
 				Invoke-WebRequest -UseBasicParsing -Uri $URI -OutFile $OutFile
 			}
 		}
