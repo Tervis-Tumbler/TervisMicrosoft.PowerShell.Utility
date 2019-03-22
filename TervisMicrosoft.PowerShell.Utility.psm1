@@ -833,7 +833,10 @@ Function New-DynamicParameter {
 			foreach($Parameter in $BoundKeys)
 			{
 				Write-Debug "Setting existing variable for dynamic parameter '$Parameter' with value '$($BoundParameters.$Parameter)'"
-				Set-Variable -Name $Parameter -Value $BoundParameters.$Parameter -Scope 1 -Force
+				(Get-PSCallStack)[1].GetFrameVariables().PSCmdlet.Value.
+					SessionState.
+					PSVariable.
+					Set($Parameter, $BoundParameters.$Parameter)
 			}
 		}
 		else
