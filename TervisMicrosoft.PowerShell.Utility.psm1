@@ -99,6 +99,20 @@ function Get-Hash {
     }
 }
 
+function ConvertTo-Hash {
+	param (
+        [Parameter(Mandatory,ValueFromPipeline)]$Object,
+        [ValidateSet("MD5","SHA1","SHA256","SHA384","SHA512")]
+        [Parameter(Mandatory)]
+        $HashFunction
+	)
+	process {
+		$Object |
+		ConvertTo-Json -Compress |
+		Get-Hash -HashFunction $HashFunction
+	}
+}
+
 function New-HashTableIndex {
 	param (
         [Parameter(Mandatory,ValueFromPipeline)]$InputObject,
