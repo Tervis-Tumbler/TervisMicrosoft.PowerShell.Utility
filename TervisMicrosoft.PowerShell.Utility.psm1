@@ -1147,3 +1147,12 @@ function Add-TervisMember {
 
 	#>
 }
+
+function Out-GoogleChrome {
+	param (
+		[Parameter(Mandatory,ValueFromPipeline)]$URL
+	)
+	process {
+		start-process -FilePath "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" -ArgumentList $URL
+	}
+}
