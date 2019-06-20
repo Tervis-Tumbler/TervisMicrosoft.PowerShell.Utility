@@ -231,11 +231,13 @@ function ConvertFrom-PSBoundParameters {
 
 function New-TemporaryDirectory {
 	param (
-		[ValidateSet("System")]$TemporaryFolderType
+		[Parameter(Mandatory)][ValidateSet("System","User")]$TemporaryFolderType
 	)
 	$GUID = New-Guid | Select-Object -ExpandProperty GUID
     $TemporaryFolderRoot = if ($TemporaryFolderType -eq "System") {
 		"C:\windows\temp"
+	} elseif ($TemporaryFolderType -eq "User") {
+		$env:TMP
 	}
 
 	"$TemporaryFolderRoot\$Guid"
