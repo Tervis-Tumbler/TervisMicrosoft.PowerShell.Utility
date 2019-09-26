@@ -116,7 +116,9 @@ function ConvertTo-Hash {
 function New-HashTableIndex {
 	param (
         [Parameter(Mandatory,ValueFromPipeline)]$InputObject,
-		[Parameter(Mandatory)]$PropertyToIndex
+		[Parameter(Mandatory)]$PropertyToIndex,
+		$ProeprtyToUseAsSingleValue,
+		[Switch]$ExcludeIndexedProperty
     )
     begin {
         $HashTable = @{}
@@ -125,7 +127,20 @@ function New-HashTableIndex {
         try {
 			$InputObject.$PropertyToIndex |
 			ForEach-Object -Process {
-				$HashTable.Add($_, $InputObject)
+				$HashTable.Add(
+					$_,
+					$(
+						if ($ExcludeIndexedProperty) {
+							$InputObject.PSObject.Properties.Remove($PropertyToIndex)
+						}
+						
+						if ($ProeprtyToUseAsSingleValue) {
+							$InputObject.$ProeprtyToUseAsSingleValue
+						} else {
+							$InputObject
+						}
+					)
+				)
 			}
         }
         catch {
